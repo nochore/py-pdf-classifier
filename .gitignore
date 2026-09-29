@@ -63,3 +63,6 @@ Thumbs.db
 # Local PDF output / temp files
 temp_*.pdf
 *.tmp
+
+# Local redesign directory - DO NOT COMMIT OR PUSH
+redesign/
