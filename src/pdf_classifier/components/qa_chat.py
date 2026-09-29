@@ -17,10 +17,13 @@ def render_qa_chat(model_name: str) -> None:
     # LEFT PANE: PDF CONTEXT ANCHOR
     with col_pdf:
         st.markdown(
-            '<div class="slate-card" style="margin-bottom: 8px; padding: 8px 12px; display: flex; align-items: center; justify-content: space-between;">'
-            '<div style="font-size: 13px; font-weight: 600; color: #f0f6fc;">Context Anchor (PDF)</div>'
-            '<div style="font-size: 11px; color: #10b981; font-family: monospace;">● Grounded in context</div>'
-            '</div>',
+            '<div class="slate-card" style="margin-bottom: 8px; padding: 8px 12px; '
+            'display: flex; align-items: center; justify-content: space-between;">'
+            '<div style="font-size: 13px; font-weight: 600; color: #f0f6fc;">'
+            "Context Anchor (PDF)</div>"
+            '<div style="font-size: 11px; color: #10b981; font-family: monospace;">'
+            "● Grounded in context</div>"
+            "</div>",
             unsafe_allow_html=True,
         )
 
@@ -56,19 +59,24 @@ def render_qa_chat(model_name: str) -> None:
                 st.image(page_img, use_container_width=True)
         else:
             st.markdown(
-                '<div style="background-color: #060f16; border: 1px dashed #222f3d; border-radius: 6px; padding: 24px; text-align: center; color: #64748b; font-size: 12px;">'
-                'No active document preview available.'
-                '</div>',
+                '<div style="background-color: #060f16; border: 1px dashed #222f3d; '
+                "border-radius: 6px; padding: 24px; text-align: center; "
+                'color: #64748b; font-size: 12px;">'
+                "No active document preview available."
+                "</div>",
                 unsafe_allow_html=True,
             )
 
     # RIGHT PANE: CONTEXTUAL CHAT STREAM
     with col_chat:
         st.markdown(
-            f'<div class="slate-card" style="margin-bottom: 8px; padding: 8px 12px; display: flex; align-items: center; justify-content: space-between;">'
-            f'<div style="font-size: 13px; font-weight: 600; color: #f0f6fc;">Q&A Assistant ({model_name})</div>'
-            f'<div style="font-size: 11px; color: #10b981; font-family: monospace;">● Ready</div>'
-            f'</div>',
+            f'<div class="slate-card" style="margin-bottom: 8px; padding: 8px 12px; '
+            f'display: flex; align-items: center; justify-content: space-between;">'
+            f'<div style="font-size: 13px; font-weight: 600; color: #f0f6fc;">'
+            f"Q&A Assistant ({model_name})</div>"
+            f'<div style="font-size: 11px; color: #10b981; '
+            f'font-family: monospace;">● Ready</div>'
+            f"</div>",
             unsafe_allow_html=True,
         )
 
@@ -77,9 +85,11 @@ def render_qa_chat(model_name: str) -> None:
         with chat_container:
             if not st.session_state.chat_history:
                 st.markdown(
-                    '<div style="font-size: 12px; color: #8c909f; text-align: center; padding: 16px 0;">'
-                    'Ask any question below about this document. Grounded local inference will inspect exact extracted context.'
-                    '</div>',
+                    '<div style="font-size: 12px; color: #8c909f; text-align: center; '
+                    'padding: 16px 0;">'
+                    "Ask any question below about this document. "
+                    "Grounded local inference will inspect exact extracted context."
+                    "</div>",
                     unsafe_allow_html=True,
                 )
 
@@ -88,18 +98,21 @@ def render_qa_chat(model_name: str) -> None:
                     citation_html = ""
                     if chat["role"] == "assistant":
                         citation_html = (
-                            '<div style="margin-top: 6px; font-size: 10px; color: #3b82f6; font-family: monospace;">'
-                            '📍 Page 1, Document Context'
-                            '</div>'
+                            '<div style="margin-top: 6px; font-size: 10px; '
+                            'color: #3b82f6; font-family: monospace;">'
+                            "📍 Page 1, Document Context"
+                            "</div>"
                         )
                     st.markdown(
-                        f'<div data-testid="chat-message-{idx}">{chat["content"]}{citation_html}</div>',
+                        f'<div data-testid="chat-message-{idx}">'
+                        f'{chat["content"]}{citation_html}</div>',
                         unsafe_allow_html=True,
                     )
 
         # Quick Suggestion Chips
         st.markdown(
-            '<div style="font-size: 10px; text-transform: uppercase; color: #8c909f; margin-top: 8px; margin-bottom: 4px;">Quick Suggestions</div>',
+            '<div style="font-size: 10px; text-transform: uppercase; color: #8c909f; '
+            'margin-top: 8px; margin-bottom: 4px;">Quick Suggestions</div>',
             unsafe_allow_html=True,
         )
         s_col1, s_col2, s_col3 = st.columns(3)
@@ -138,8 +151,9 @@ def render_qa_chat(model_name: str) -> None:
                         response = query_ollama(qa_prompt, model=model_name)
                         st.markdown(
                             f'<div data-testid="latest-ai-response">{response}'
-                            f'<div style="margin-top: 6px; font-size: 10px; color: #3b82f6; font-family: monospace;">📍 Page 1, Document Context</div>'
-                            f'</div>',
+                            f'<div style="margin-top: 6px; font-size: 10px; color: #3b82f6; '
+                            f'font-family: monospace;">📍 Page 1, Document Context</div>'
+                            f"</div>",
                             unsafe_allow_html=True,
                         )
                         st.session_state.chat_history.append(

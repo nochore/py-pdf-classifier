@@ -10,7 +10,8 @@ PRECISION_SLATE_CSS = """
 
     /* Global Typography & Palette Defaults */
     html, body, [class*="css"], .stApp {
-        font-family: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+        font-family: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI",
+            Roboto, sans-serif !important;
         background-color: #0b141c !important;
         color: #dae3ee !important;
     }

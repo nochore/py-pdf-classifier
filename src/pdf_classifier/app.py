@@ -19,15 +19,20 @@ def render_header() -> None:
 
     with h_col1:
         st.markdown(
-            f'<div style="display: flex; align-items: center; gap: 10px; padding-top: 4px;">'
-            f'<div style="font-size: 15px; font-weight: 700; color: #f1f5f9; display: flex; align-items: center; gap: 6px;">'
-            f'<span style="background: rgba(59, 130, 246, 0.2); color: #3b82f6; padding: 2px 6px; border-radius: 4px;">📄</span> Document AI'
-            f'</div>'
+            f'<div style="display: flex; align-items: center; gap: 10px; '
+            f'padding-top: 4px;">'
+            f'<div style="font-size: 15px; font-weight: 700; color: #f1f5f9; '
+            f'display: flex; align-items: center; gap: 6px;">'
+            f'<span style="background: rgba(59, 130, 246, 0.2); color: #3b82f6; '
+            f'padding: 2px 6px; border-radius: 4px;">📄</span> Document AI'
+            f"</div>"
             f'<div style="height: 14px; width: 1px; background: #222f3d;"></div>'
-            f'<div style="font-family: monospace; font-size: 11px; color: #94a3b8; background: #141c24; padding: 2px 8px; border-radius: 4px; border: 1px solid #222f3d; display: flex; align-items: center; gap: 6px;">'
+            f'<div style="font-family: monospace; font-size: 11px; color: #94a3b8; '
+            f"background: #141c24; padding: 2px 8px; border-radius: 4px; "
+            f'border: 1px solid #222f3d; display: flex; align-items: center; gap: 6px;">'
             f'<span>{active_doc}</span><span style="color: #10b981;">●</span>'
-            f'</div>'
-            f'</div>',
+            f"</div>"
+            f"</div>",
             unsafe_allow_html=True,
         )
 
@@ -43,11 +48,15 @@ def render_header() -> None:
 
     with h_col3:
         st.markdown(
-            '<div style="display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding-top: 4px;">'
-            '<div style="font-family: monospace; font-size: 11px; color: #94a3b8; background: #141c24; padding: 3px 8px; border-radius: 4px; border: 1px solid #222f3d; display: flex; align-items: center; gap: 6px;">'
+            '<div style="display: flex; align-items: center; justify-content: flex-end; '
+            'gap: 8px; padding-top: 4px;">'
+            '<div style="font-family: monospace; font-size: 11px; color: #94a3b8; '
+            "background: #141c24; padding: 3px 8px; border-radius: 4px; "
+            "border: 1px solid #222f3d; display: flex; align-items: center; "
+            'gap: 6px;">'
             '<span style="color: #10b981;">●</span><span>Ollama: llama3</span>'
-            '</div>'
-            '</div>',
+            "</div>"
+            "</div>",
             unsafe_allow_html=True,
         )
 
@@ -56,9 +65,11 @@ def render_status_bar(model_name: str) -> None:
     """Render bottom ambient telemetry status bar dock."""
     st.markdown(
         f'<div class="footer-dock">'
-        f'<div>Model: <span style="color: #f1f5f9;">{model_name}</span> • Speed: <span style="color: #f1f5f9;">48.2 tok/s</span> • Context: <span style="color: #f1f5f9;">3.1k / 8k</span></div>'
+        f'<div>Model: <span style="color: #f1f5f9;">{model_name}</span> • '
+        f'Speed: <span style="color: #f1f5f9;">48.2 tok/s</span> • '
+        f'Context: <span style="color: #f1f5f9;">3.1k / 8k</span></div>'
         f'<div><span class="online-dot">● Local Offline Engine</span></div>'
-        f'</div>',
+        f"</div>",
         unsafe_allow_html=True,
     )
 

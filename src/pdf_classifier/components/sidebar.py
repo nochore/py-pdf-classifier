@@ -20,7 +20,7 @@ def render_sidebar() -> str:
             '<div style="font-size: 14px; font-weight: 600; color: #f1f5f9; margin-bottom: 2px;">'
             '<span style="color: #3b82f6;">⚡</span> Document AI</div>'
             '<div style="font-size: 11px; color: #64748b; margin-bottom: 12px;">'
-            'Local AI Extraction Workbench</div>',
+            "Local AI Extraction Workbench</div>",
             unsafe_allow_html=True,
         )
 
@@ -42,13 +42,17 @@ def render_sidebar() -> str:
             size_kb = len(uploaded_file.getvalue()) // 1024
             pg_count = st.session_state.doc_metrics.get("page_count", 1)
             st.markdown(
-                f'<div class="slate-card-sm" style="display: flex; align-items: center; justify-content: space-between;">'
-                f'<div>'
-                f'<div style="font-size: 12px; font-weight: 500; color: #f0f6fc; overflow: hidden; text-overflow: ellipsis; max-width: 170px; white-space: nowrap;">{uploaded_file.name}</div>'
-                f'<div style="font-size: 10px; color: #8b949e; font-family: monospace;">{size_kb} KB • {pg_count} pg</div>'
-                f'</div>'
+                f'<div class="slate-card-sm" style="display: flex; align-items: center; '
+                f'justify-content: space-between;">'
+                f"<div>"
+                f'<div style="font-size: 12px; font-weight: 500; color: #f0f6fc; '
+                f"overflow: hidden; text-overflow: ellipsis; max-width: 170px; "
+                f'white-space: nowrap;">{uploaded_file.name}</div>'
+                f'<div style="font-size: 10px; color: #8b949e; '
+                f'font-family: monospace;">{size_kb} KB • {pg_count} pg</div>'
+                f"</div>"
                 f'<span style="color: #10b981; font-size: 16px;">✓</span>'
-                f'</div>',
+                f"</div>",
                 unsafe_allow_html=True,
             )
 
@@ -62,30 +66,41 @@ def render_sidebar() -> str:
         )
         recent_html = """
         <div style="display: flex; flex-direction: column; gap: 4px;">
-            <div style="display: flex; justify-content: space-between; font-size: 11px; padding: 4px 8px; background: #141c24; border-radius: 4px; color: #94a3b8;">
-                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">q4_balance_sheet.pdf</span>
+            <div style="display: flex; justify-content: space-between; font-size: 11px;
+                padding: 4px 8px; background: #141c24; border-radius: 4px; color: #94a3b8;">
+                <span style="overflow: hidden; text-overflow: ellipsis;
+                    white-space: nowrap;">q4_balance_sheet.pdf</span>
                 <span style="color: #64748b; font-size: 10px;">2h ago</span>
             </div>
-            <div style="display: flex; justify-content: space-between; font-size: 11px; padding: 4px 8px; background: #141c24; border-radius: 4px; color: #94a3b8;">
-                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">nda_revised_draft.pdf</span>
+            <div style="display: flex; justify-content: space-between; font-size: 11px;
+                padding: 4px 8px; background: #141c24; border-radius: 4px; color: #94a3b8;">
+                <span style="overflow: hidden; text-overflow: ellipsis;
+                    white-space: nowrap;">nda_revised_draft.pdf</span>
                 <span style="color: #64748b; font-size: 10px;">1d ago</span>
             </div>
-            <div style="display: flex; justify-content: space-between; font-size: 11px; padding: 4px 8px; background: #141c24; border-radius: 4px; color: #94a3b8;">
-                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">w9_contractor_fill.pdf</span>
+            <div style="display: flex; justify-content: space-between; font-size: 11px;
+                padding: 4px 8px; background: #141c24; border-radius: 4px; color: #94a3b8;">
+                <span style="overflow: hidden; text-overflow: ellipsis;
+                    white-space: nowrap;">w9_contractor_fill.pdf</span>
                 <span style="color: #64748b; font-size: 10px;">3d ago</span>
             </div>
         </div>
         """
         st.markdown(recent_html, unsafe_allow_html=True)
 
-        st.markdown('<div style="height: 12px; border-bottom: 1px solid #222f3d;"></div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div style="height: 12px; border-bottom: 1px solid #222f3d;"></div>',
+            unsafe_allow_html=True,
+        )
         st.markdown('<div style="height: 8px;"></div>', unsafe_allow_html=True)
 
         # Runtime Inference Settings
         st.markdown(
             '<div style="font-size: 10px; font-weight: 500; text-transform: uppercase; '
-            'color: #8c909f; letter-spacing: 0.04em; margin-bottom: 6px; display: flex; justify-content: space-between;">'
-            '<span>Runtime Inference</span><span style="color: #10b981; font-family: monospace;">Ollama</span></div>',
+            "color: #8c909f; letter-spacing: 0.04em; margin-bottom: 6px; "
+            'display: flex; justify-content: space-between;">'
+            '<span>Runtime Inference</span><span style="color: #10b981; '
+            'font-family: monospace;">Ollama</span></div>',
             unsafe_allow_html=True,
         )
 
@@ -108,7 +123,8 @@ def render_sidebar() -> str:
 
         st.markdown(
             '<div style="font-size: 10px; font-weight: 500; text-transform: uppercase; '
-            'color: #8c909f; letter-spacing: 0.04em; margin-top: 6px; margin-bottom: 4px;">Extraction Schema</div>',
+            'color: #8c909f; letter-spacing: 0.04em; margin-top: 6px; '
+            'margin-bottom: 4px;">Extraction Schema</div>',
             unsafe_allow_html=True,
         )
         schema_col1, schema_col2, schema_col3 = st.columns(3)
