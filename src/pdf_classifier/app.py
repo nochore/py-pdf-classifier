@@ -1,5 +1,7 @@
 """Main Streamlit application entry point for Document AI Enterprise Parser."""
 
+from html import escape
+
 import streamlit as st
 
 from pdf_classifier.components import (
@@ -9,68 +11,58 @@ from pdf_classifier.components import (
     render_split_inspector,
 )
 from pdf_classifier.utils import apply_custom_styles, init_session_state
+from pdf_classifier.utils.styles import empty_state, html
+
+VIEWS = ["Split Inspector", "Q&A Chat", "Raw Schema"]
 
 
-def render_header() -> None:
-    """Render the top navigation bar with branding and segmented view switcher."""
-    active_doc = st.session_state.uploaded_file_name or "01_valid_invoice.pdf"
+def render_header(model_name: str) -> None:
+    """Render the top bar: brand + file badge, view switcher, engine status."""
+    doc = st.session_state.uploaded_file_name
+    left, center, right = st.columns([3, 4, 3], gap="small", vertical_alignment="center")
 
-    h_col1, h_col2, h_col3 = st.columns([3, 4, 3])
-
-    with h_col1:
-        st.markdown(
-            f'<div style="display: flex; align-items: center; gap: 10px; '
-            f'padding-top: 4px;">'
-            f'<div style="font-size: 15px; font-weight: 700; color: #f1f5f9; '
-            f'display: flex; align-items: center; gap: 6px;">'
-            f'<span style="background: rgba(59, 130, 246, 0.2); color: #3b82f6; '
-            f'padding: 2px 6px; border-radius: 4px;">📄</span> Document AI'
-            f"</div>"
-            f'<div style="height: 14px; width: 1px; background: #222f3d;"></div>'
-            f'<div style="font-family: monospace; font-size: 11px; color: #94a3b8; '
-            f"background: #141c24; padding: 2px 8px; border-radius: 4px; "
-            f'border: 1px solid #222f3d; display: flex; align-items: center; gap: 6px;">'
-            f'<span>{active_doc}</span><span style="color: #10b981;">●</span>'
-            f"</div>"
-            f"</div>",
-            unsafe_allow_html=True,
+    with left:
+        badge = (
+            f'<span class="pill"><span class="dot"></span>{escape(doc)}</span>'
+            if doc
+            else '<span class="pill"><span class="dot off"></span>no document</span>'
+        )
+        html(
+            '<div class="brand"><span class="brand-mark">▤</span>Document AI'
+            f"<span style='width:1px;height:16px;background:var(--line)'></span>{badge}</div>"
         )
 
-    with h_col2:
-        views = ["Split Inspector", "Q&A Chat", "Raw Schema"]
-        st.radio(
-            "",
-            options=views,
-            key="active_view",
-            horizontal=True,
+    with center:
+        selected = st.segmented_control(
+            "View",
+            VIEWS,
+            default=st.session_state.active_view,
             label_visibility="collapsed",
+            key="view_switcher",
         )
+        if selected:
+            st.session_state.active_view = selected
 
-    with h_col3:
-        st.markdown(
-            '<div style="display: flex; align-items: center; justify-content: flex-end; '
-            'gap: 8px; padding-top: 4px;">'
-            '<div style="font-family: monospace; font-size: 11px; color: #94a3b8; '
-            "background: #141c24; padding: 3px 8px; border-radius: 4px; "
-            "border: 1px solid #222f3d; display: flex; align-items: center; "
-            'gap: 6px;">'
-            '<span style="color: #10b981;">●</span><span>Ollama: llama3</span>'
-            "</div>"
-            "</div>",
-            unsafe_allow_html=True,
+    with right:
+        html(
+            '<div style="display:flex;justify-content:flex-end">'
+            f'<span class="pill"><span class="dot"></span>Ollama: {escape(model_name)}</span></div>'
         )
 
 
 def render_status_bar(model_name: str) -> None:
-    """Render bottom ambient telemetry status bar dock."""
-    st.markdown(
-        f'<div class="footer-dock">'
-        f'<div>Model: <span style="color: #f1f5f9;">{model_name}</span> • '
-        f'Speed: <span style="color: #f1f5f9;">48.2 tok/s</span> • '
-        f'Context: <span style="color: #f1f5f9;">3.1k / 8k</span></div>'
-        f'<div><span class="online-dot">● Local Offline Engine</span></div>'
-        f"</div>",
-        unsafe_allow_html=True,
+    """Render the bottom status dock using real session telemetry."""
+    metrics = st.session_state.doc_metrics
+    latency = st.session_state.latency_ms
+    parts = [f"Model: <b>{escape(model_name)}</b>"]
+    if metrics:
+        parts.append(f"Pages: <b>{metrics.get('page_count', 0)}</b>")
+        parts.append(f"Words: <b>{metrics.get('word_count', 0):,}</b>")
+    if latency is not None:
+        parts.append(f"Last inference: <b>{latency} ms</b>")
+    html(
+        f'<div class="footer-dock"><div>{" • ".join(parts)}</div>'
+        '<div class="online-dot">● Local offline engine</div></div>'
     )
 
 
@@ -86,23 +78,20 @@ def main() -> None:
     init_session_state()
 
     model_name = render_sidebar()
-
-    render_header()
+    render_header(model_name)
 
     if st.session_state.extracted_text:
-        current_view = st.session_state.active_view
-        if current_view == "Split Inspector":
-            render_split_inspector()
-        elif current_view == "Q&A Chat":
+        view = st.session_state.active_view
+        if view == "Q&A Chat":
             render_chat_workspace(model_name)
-        elif current_view == "Raw Schema":
+        elif view == "Raw Schema":
             render_raw_schema()
         else:
             render_split_inspector()
     else:
-        st.info(
-            "System Ready. Please upload a PDF document in the "
-            "sidebar configuration panel to initialize analysis."
+        empty_state(
+            "System Ready. Please upload a PDF document in the sidebar "
+            "configuration panel to initialize analysis."
         )
 
     render_status_bar(model_name)

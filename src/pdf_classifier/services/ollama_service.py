@@ -11,6 +11,7 @@ def query_ollama(
     system_prompt: str = "",
     host: str | None = None,
     timeout: int = 60,
+    temperature: float | None = None,
 ) -> str:
     """Query local Ollama instance for text generation."""
     if host is None:
@@ -23,6 +24,8 @@ def query_ollama(
         "system": system_prompt,
         "stream": False,
     }
+    if temperature is not None:
+        payload["options"] = {"temperature": temperature}
 
     try:
         response = requests.post(url, json=payload, timeout=timeout)
