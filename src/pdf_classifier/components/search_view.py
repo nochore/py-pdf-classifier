@@ -29,9 +29,9 @@ def render_search_view() -> None:
         )
         st.markdown(
             '<div data-testid="search-results-box" style="background-color: '
-            'var(--secondary-background-color); padding: 16px; border: 1px solid '
-            'rgba(255,255,255,0.1); border-radius: 6px; max-height: 400px; '
-            'overflow-y: auto; white-space: pre-wrap; font-family: monospace; '
+            "var(--secondary-background-color); padding: 16px; border: 1px solid "
+            "rgba(255,255,255,0.1); border-radius: 6px; max-height: 400px; "
+            "overflow-y: auto; white-space: pre-wrap; font-family: monospace; "
             f'font-size: 13px; color: var(--text-color);">{highlighted_html}</div>',
             unsafe_allow_html=True,
         )

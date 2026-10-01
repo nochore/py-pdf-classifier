@@ -11,21 +11,21 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, Tabl
 def create_base_styles():
     styles = getSampleStyleSheet()
     title_style = ParagraphStyle(
-        'DocTitle',
-        parent=styles['Heading1'],
-        fontName='Helvetica-Bold',
+        "DocTitle",
+        parent=styles["Heading1"],
+        fontName="Helvetica-Bold",
         fontSize=18,
         leading=22,
-        textColor=colors.HexColor('#1E293B'),
-        spaceAfter=10
+        textColor=colors.HexColor("#1E293B"),
+        spaceAfter=10,
     )
     body_style = ParagraphStyle(
-        'DocBody',
-        parent=styles['Normal'],
-        fontName='Helvetica',
+        "DocBody",
+        parent=styles["Normal"],
+        fontName="Helvetica",
         fontSize=10,
         leading=14,
-        textColor=colors.HexColor('#334155')
+        textColor=colors.HexColor("#334155"),
     )
     return title_style, body_style
 
@@ -45,23 +45,27 @@ def generate_valid_invoice(filename="01_valid_invoice.pdf"):
     story = [
         Paragraph("ACME ENTERPRISE SOLUTIONS", title_style),
         Paragraph("Statement ID: ACT-8849201 | Date: September 26, 2026", body_style),
-        Spacer(1, 15)
+        Spacer(1, 15),
     ]
 
     data = [
         ["Item", "Qty", "Price", "Total"],
         ["Cloud Server Subscriptions", "2", "$500.00", "$1,000.00"],
         ["AI Token Usage Allocation", "10", "$15.00", "$150.00"],
-        ["Subtotal", "", "", "$1,150.00"]
+        ["Subtotal", "", "", "$1,150.00"],
     ]
 
     t = Table(data, colWidths=[250, 60, 80, 90])
-    t.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#1E293B')),
-        ('TEXTCOLOR', (0,0), (-1,0), colors.white),
-        ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor('#E2E8F0')),
-        ('ALIGN', (1,0), (-1,-1), 'RIGHT'),
-    ]))
+    t.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#1E293B")),
+                ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+                ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#E2E8F0")),
+                ("ALIGN", (1, 0), (-1, -1), "RIGHT"),
+            ]
+        )
+    )
     story.append(t)
     doc.build(story)
     print(f"Generated: {filename}")
@@ -112,17 +116,17 @@ def generate_large_multipage_pdf(filename="05_stress_multipage.pdf"):
     doc = SimpleDocTemplate(base_single_page, pagesize=letter)
     title_style, body_style = create_base_styles()
 
-    story = [
-        Paragraph("PERFORMANCE STRESS TEST PAYLOAD", title_style),
-        Spacer(1, 10)
-    ]
+    story = [Paragraph("PERFORMANCE STRESS TEST PAYLOAD", title_style), Spacer(1, 10)]
 
     for i in range(25):
-        story.append(Paragraph(
-            f"Line item entry #{i+1}: Automated Playwright load verification parameter. "
-            "Testing memory allocation limits, string concatenation bounds, and rendering speeds.",
-            body_style
-        ))
+        story.append(
+            Paragraph(
+                f"Line item entry #{i + 1}: Automated Playwright load verification parameter. "
+                "Testing memory allocation limits, string concatenation bounds, and rendering "
+                "speeds.",
+                body_style,
+            )
+        )
         story.append(Spacer(1, 4))
 
     doc.build(story)
@@ -156,7 +160,7 @@ def generate_keyword_density_pdf(filename="06_keyword_density.pdf"):
     story = [
         Paragraph("SECURITY AUDIT & COMPLIANCE LOG", title_style),
         Paragraph("Target Flag: CONFIDENTIAL", body_style),
-        Spacer(1, 15)
+        Spacer(1, 15),
     ]
 
     paragraph_text = (

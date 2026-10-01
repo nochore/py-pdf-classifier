@@ -1,6 +1,6 @@
 """Unit tests for PDF extraction and rendering service."""
 
-import fitz
+import pymupdf
 import pytest
 
 from pdf_classifier.services.pdf_service import extract_pdf_data, render_pdf_page_cached
@@ -9,7 +9,7 @@ from pdf_classifier.services.pdf_service import extract_pdf_data, render_pdf_pag
 @pytest.fixture
 def sample_pdf_bytes() -> bytes:
     """Generate in-memory sample PDF bytes for testing."""
-    doc = fitz.open()
+    doc = pymupdf.open()
     page1 = doc.new_page()
     page1.insert_text((50, 50), "Hello World PDF Page 1")
     page2 = doc.new_page()

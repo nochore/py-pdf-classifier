@@ -32,3 +32,17 @@ def highlight_keywords(text: str, keyword: str) -> Tuple[str, int]:
         text,
     )
     return highlighted_text, matches
+
+
+_AMOUNT_RE = re.compile(r"(?:[$€£]\s?\d[\d,]*(?:\.\d{2})?|\d[\d,]*\.\d{2}\s?(?:USD|EUR|GBP))")
+_DATE_RE = re.compile(
+    r"\b(?:\d{4}-\d{2}-\d{2}|\d{1,2}/\d{1,2}/\d{2,4}|"
+    r"(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? \d{1,2},? \d{4})\b"
+)
+
+
+def extract_entities(text: str, limit: int = 200) -> Dict[str, list[str]]:
+    """Detect unique currency amounts and dates in text (order preserved)."""
+    amounts = list(dict.fromkeys(m.strip() for m in _AMOUNT_RE.findall(text)))
+    dates = list(dict.fromkeys(_DATE_RE.findall(text)))
+    return {"amounts": amounts[:limit], "dates": dates[:limit]}
