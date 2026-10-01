@@ -53,3 +53,12 @@ def test_render_pdf_page_cached_out_of_bounds(sample_pdf_bytes: bytes):
     """Test render_pdf_page_cached with out of bounds page index."""
     img_bytes = render_pdf_page_cached(sample_pdf_bytes, 99, 1.0)
     assert img_bytes == b""
+
+
+def test_render_pdf_page_cached_with_highlights(sample_pdf_bytes: bytes):
+    """Test render_pdf_page_cached with highlight overlays."""
+    highlights = (("Hello", "amount"), ("World", "date"), ("PDF", "other"))
+    img_bytes = render_pdf_page_cached(sample_pdf_bytes, 0, 1.0, highlights=highlights)
+    assert isinstance(img_bytes, bytes)
+    assert len(img_bytes) > 0
+    assert img_bytes[:4] == b"\x89PNG"
